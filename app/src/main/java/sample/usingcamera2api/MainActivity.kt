@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onSurfaceTextureDestroyed(p0: SurfaceTexture?): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            return true
         }
 
         override fun onSurfaceTextureAvailable(p0: SurfaceTexture?, p1: Int, p2: Int) {
