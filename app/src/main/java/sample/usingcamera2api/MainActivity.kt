@@ -24,6 +24,8 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+import org.tensorflow.contrib.android.TensorFlowInferenceInterface
+
 class MainActivity : AppCompatActivity() {
 
     private var cameraDevice : CameraDevice? = null
@@ -93,6 +95,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val tensorflow = TensorFlowInferenceInterface(assets, "tiny-yolo-voc.pb")
 
         textureView.surfaceTextureListener = surfaceTextureListener
     }
