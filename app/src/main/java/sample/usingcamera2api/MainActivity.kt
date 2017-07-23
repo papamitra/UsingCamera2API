@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.HandlerThread
+import android.util.Log
 import android.util.Size
 import android.view.Surface
 import android.view.TextureView
@@ -32,10 +33,43 @@ class MainActivity : AppCompatActivity() {
     private lateinit var captureRequestBuilder : CaptureRequest.Builder
     private var cameraCaptureSession : CameraCaptureSession? = null
     private lateinit var previewSize: Size
+    private lateinit var previewReader: ImageReader
+
+    private lateinit var captureThread: HandlerThread
+    private lateinit var captureHandler: Handler
+    private lateinit var previewRequest: CaptureRequest
+
+    private val captureCallback = object : CameraCaptureSession.CaptureCallback() {
+        override fun onCaptureProgressed(session: CameraCaptureSession?, request: CaptureRequest?, partialResult: CaptureResult?) {
+            //super.onCaptureProgressed(session, request, partialResult)
+        }
+
+        override fun onCaptureCompleted(session: CameraCaptureSession?, request: CaptureRequest?, result: TotalCaptureResult?) {
+            //super.onCaptureCompleted(session, request, result)
+        }
+    }
+
+    private val imageListener = object : ImageReader.OnImageAvailableListener {
+        override fun onImageAvailable(reader: ImageReader?) {
+            Log.d("CameraDetection", "call image avalilablelistener")
+            if (reader == null) {
+                Log.d("CameraDetection", "reader is null")
+
+            } else {
+                val image = reader.acquireLatestImage()
+                if (image == null) {
+                    Log.d("CameraDetection", "image is null")
+                } else {
+                    image.close()
+                }
+            }
+        }
+    }
 
     private val stateCallback: CameraDevice.StateCallback =
         object : CameraDevice.StateCallback() {
             override fun onOpened(camera: CameraDevice?) {
+                Log.d("CameraDetection", "Camera onOpened")
                 cameraDevice = camera
                 cameraDevice?.let { cameraDevice ->
                     val texture = textureView.surfaceTexture!!
@@ -48,8 +82,18 @@ class MainActivity : AppCompatActivity() {
                         e.printStackTrace()
                     }
                     captureRequestBuilder.addTarget(surface)
+
+                    captureThread = HandlerThread("ImageListener")
+                    captureHandler = with(captureThread) {
+                        start()
+                        Handler(looper)
+                    }
+                    previewReader = ImageReader.newInstance(previewSize.width, previewSize.height, ImageFormat.YUV_420_888, 2)
+                    previewReader.setOnImageAvailableListener( imageListener, captureHandler)
+                    captureRequestBuilder.addTarget(previewReader.surface)
+
                     try {
-                        cameraDevice.createCaptureSession(listOf(surface), previewStateCallback, null)
+                        cameraDevice.createCaptureSession(listOf(surface, previewReader.surface), previewStateCallback, null)
                     } catch (e: CameraAccessException) {
                         e.printStackTrace()
                     }
@@ -84,6 +128,7 @@ class MainActivity : AppCompatActivity() {
 
     private val previewStateCallback = object : CameraCaptureSession.StateCallback() {
         override fun onConfigured(session: CameraCaptureSession?) {
+            Log.d("CameraDetect", "previewStateCallback::onConfigured()")
             startPreview(session!!)
         }
 
@@ -135,14 +180,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startPreview(session: CameraCaptureSession) {
-        cameraCaptureSession = session
-        cameraCaptureSession?.let { cameraCaptureSession ->
-            captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO)
-            val backgroundThread = HandlerThread("CameraPreview")
-            backgroundThread.start()
-            val backgroundHandler = Handler(backgroundThread.looper)
+        cameraCaptureSession = session.apply {
+            //captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO)
+            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CameraMetadata.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+            //captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START)
+            //captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO)
             try {
-                cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), null, backgroundHandler)
+                previewRequest = captureRequestBuilder.build()
+                setRepeatingRequest(previewRequest, captureCallback, captureHandler)
             } catch (e: CameraAccessException) {
                 e.printStackTrace()
             }
@@ -156,6 +201,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     protected fun takePicture(view: View) {
+        Log.d("CameraDetection", "takcPicture")
         cameraDevice?.let { cameraDevice ->
             val manager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
             try {
