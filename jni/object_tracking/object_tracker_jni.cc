@@ -20,13 +20,13 @@ limitations under the License.
 #include <string.h>
 #include <cstdint>
 
-#include "tensorflow/examples/android/jni/object_tracking/image-inl.h"
-#include "tensorflow/examples/android/jni/object_tracking/image.h"
-#include "tensorflow/examples/android/jni/object_tracking/jni_utils.h"
-#include "tensorflow/examples/android/jni/object_tracking/time_log.h"
+#include "object_tracking/image-inl.h"
+#include "object_tracking/image.h"
+#include "object_tracking/jni_utils.h"
+#include "object_tracking/time_log.h"
 
-#include "tensorflow/examples/android/jni/object_tracking/config.h"
-#include "tensorflow/examples/android/jni/object_tracking/object_tracker.h"
+#include "object_tracking/config.h"
+#include "object_tracking/object_tracker.h"
 
 namespace tf_tracking {
 

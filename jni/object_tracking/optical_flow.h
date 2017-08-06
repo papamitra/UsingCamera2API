@@ -16,15 +16,15 @@ limitations under the License.
 #ifndef THIRD_PARTY_TENSORFLOW_EXAMPLES_ANDROID_JNI_OBJECT_TRACKING_OPTICAL_FLOW_H_
 #define THIRD_PARTY_TENSORFLOW_EXAMPLES_ANDROID_JNI_OBJECT_TRACKING_OPTICAL_FLOW_H_
 
-#include "tensorflow/examples/android/jni/object_tracking/geom.h"
-#include "tensorflow/examples/android/jni/object_tracking/image-inl.h"
-#include "tensorflow/examples/android/jni/object_tracking/image.h"
-#include "tensorflow/examples/android/jni/object_tracking/utils.h"
+#include "object_tracking/geom.h"
+#include "object_tracking/image-inl.h"
+#include "object_tracking/image.h"
+#include "object_tracking/utils.h"
 
-#include "tensorflow/examples/android/jni/object_tracking/config.h"
-#include "tensorflow/examples/android/jni/object_tracking/frame_pair.h"
-#include "tensorflow/examples/android/jni/object_tracking/image_data.h"
-#include "tensorflow/examples/android/jni/object_tracking/keypoint.h"
+#include "object_tracking/config.h"
+#include "object_tracking/frame_pair.h"
+#include "object_tracking/image_data.h"
+#include "object_tracking/keypoint.h"
 
 namespace tf_tracking {
 

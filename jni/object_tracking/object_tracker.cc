@@ -21,20 +21,20 @@ limitations under the License.
 #include <string>
 #include <map>
 
-#include "tensorflow/examples/android/jni/object_tracking/geom.h"
-#include "tensorflow/examples/android/jni/object_tracking/image-inl.h"
-#include "tensorflow/examples/android/jni/object_tracking/image.h"
-#include "tensorflow/examples/android/jni/object_tracking/integral_image.h"
-#include "tensorflow/examples/android/jni/object_tracking/logging.h"
-#include "tensorflow/examples/android/jni/object_tracking/time_log.h"
-#include "tensorflow/examples/android/jni/object_tracking/utils.h"
+#include "object_tracking/geom.h"
+#include "object_tracking/image-inl.h"
+#include "object_tracking/image.h"
+#include "object_tracking/integral_image.h"
+#include "object_tracking/logging.h"
+#include "object_tracking/time_log.h"
+#include "object_tracking/utils.h"
 
-#include "tensorflow/examples/android/jni/object_tracking/config.h"
-#include "tensorflow/examples/android/jni/object_tracking/flow_cache.h"
-#include "tensorflow/examples/android/jni/object_tracking/keypoint_detector.h"
-#include "tensorflow/examples/android/jni/object_tracking/object_detector.h"
-#include "tensorflow/examples/android/jni/object_tracking/object_tracker.h"
-#include "tensorflow/examples/android/jni/object_tracking/optical_flow.h"
+#include "object_tracking/config.h"
+#include "object_tracking/flow_cache.h"
+#include "object_tracking/keypoint_detector.h"
+#include "object_tracking/object_detector.h"
+#include "object_tracking/object_tracker.h"
+#include "object_tracking/optical_flow.h"
 
 namespace tf_tracking {
 

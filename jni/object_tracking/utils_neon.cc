@@ -20,10 +20,10 @@ limitations under the License.
 
 #include <arm_neon.h>
 
-#include "tensorflow/examples/android/jni/object_tracking/geom.h"
-#include "tensorflow/examples/android/jni/object_tracking/image-inl.h"
-#include "tensorflow/examples/android/jni/object_tracking/image.h"
-#include "tensorflow/examples/android/jni/object_tracking/utils.h"
+#include "object_tracking/geom.h"
+#include "object_tracking/image-inl.h"
+#include "object_tracking/image.h"
+#include "object_tracking/utils.h"
 
 namespace tf_tracking {
 

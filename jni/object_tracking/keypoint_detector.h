@@ -19,10 +19,10 @@ limitations under the License.
 #include <stdint.h>
 #include <vector>
 
-#include "tensorflow/examples/android/jni/object_tracking/image-inl.h"
-#include "tensorflow/examples/android/jni/object_tracking/image.h"
-#include "tensorflow/examples/android/jni/object_tracking/image_data.h"
-#include "tensorflow/examples/android/jni/object_tracking/optical_flow.h"
+#include "object_tracking/image-inl.h"
+#include "object_tracking/image.h"
+#include "object_tracking/image_data.h"
+#include "object_tracking/optical_flow.h"
 
 namespace tf_tracking {
 
