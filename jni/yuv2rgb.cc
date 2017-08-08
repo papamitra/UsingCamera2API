@@ -18,6 +18,9 @@ limitations under the License.
 
 #include "yuv2rgb.h"
 
+#include <unistd.h>
+extern unsigned int __page_size = getpagesize();
+
 #ifndef MAX
 #define MAX(a, b) ({__typeof__(a) _a = (a); __typeof__(b) _b = (b); _a > _b ? _a : _b; })
 #define MIN(a, b) ({__typeof__(a) _a = (a); __typeof__(b) _b = (b); _a < _b ? _a : _b; })
