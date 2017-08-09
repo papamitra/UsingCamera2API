@@ -49,22 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val imageListener = object : ImageReader.OnImageAvailableListener {
-        override fun onImageAvailable(reader: ImageReader?) {
-            Log.d("CameraDetection", "call image avalilablelistener")
-            if (reader == null) {
-                Log.d("CameraDetection", "reader is null")
-
-            } else {
-                val image = reader.acquireLatestImage()
-                if (image == null) {
-                    Log.d("CameraDetection", "image is null")
-                } else {
-                    image.close()
-                }
-            }
-        }
-    }
+    private val imageListener by lazy { Detector(previewSize) }
 
     private val stateCallback: CameraDevice.StateCallback =
         object : CameraDevice.StateCallback() {

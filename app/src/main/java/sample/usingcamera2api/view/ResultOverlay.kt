@@ -14,6 +14,12 @@ import java.security.KeyStore
  */
 
 class ResultOverlay : View {
+    private val callbacks: MutableList<DrawCallback> = mutableListOf()
+
+    interface DrawCallback {
+        fun drawCallback(canvas: Canvas)
+    }
+
     constructor(context: Context?) : super(context)
     constructor(context: Context?,
                 attrs: AttributeSet?) : super(context, attrs)
@@ -32,5 +38,15 @@ class ResultOverlay : View {
         paint.color = Color.argb(255,255,0,0)
 
         canvas!!.drawRect(Rect(0, 0, 100, 100), paint)
+
+        canvas?.let {
+            for (c in callbacks) {
+                c.drawCallback(it)
+            }
+        }
+    }
+
+    fun addCallback(callback: DrawCallback) {
+        callbacks.add(callback)
     }
 }
